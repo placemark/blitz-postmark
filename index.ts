@@ -1,9 +1,4 @@
-import {
-  addImport,
-  findModuleExportsExpressions,
-  paths,
-  RecipeBuilder,
-} from "@blitzjs/installer";
+import { addImport, RecipeBuilder } from "@blitzjs/installer";
 import j from "jscodeshift";
 import { Collection } from "jscodeshift/src/Collection";
 import { join } from "path";

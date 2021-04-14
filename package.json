@@ -6,7 +6,8 @@
   "author": "Tom MacWright",
   "license": "MIT",
   "scripts": {
-    "test": "tsdx test"
+    "test": "tsdx test",
+    "lint": "tsdx lint"
   },
   "dependencies": {
     "@blitzjs/installer": "^0.33.1",

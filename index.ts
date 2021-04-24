@@ -53,6 +53,15 @@ export default RecipeBuilder()
       },
     ],
   })
+  .addTransformFilesStep({
+    stepId: "importPostmarkInMailer",
+    stepName: "Import and use postmark in mailer",
+    explanation: "Import postmark integration in mailer, call it.",
+    singleFileSearch: "mailers/forgotPasswordMailer.ts",
+    transform(program: Collection<j.Program>) {
+      return changeEmailFunction(program);
+    },
+  })
   .addNewFilesStep({
     stepId: "createIntegration",
     stepName: "Add postmark integration",
@@ -61,13 +70,5 @@ export default RecipeBuilder()
     templatePath: join(__dirname, "templates", "postmark"),
     templateValues: {},
   })
-  .addTransformFilesStep({
-    stepId: "importPostmarkInMailer",
-    stepName: "Import and use postmark in mailer",
-    explanation: "Import postmark integration in mailer, call it.",
-    singleFileSearch: "mailers/forgotPasswordMailer",
-    transform(program: Collection<j.Program>) {
-      return changeEmailFunction(program);
-    },
-  })
+
   .build();

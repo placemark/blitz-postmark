@@ -9,6 +9,8 @@ exports[`transform 1`] = `
  */
 import previewEmail from \\"preview-email\\";
 
+import postmark from \\"integrations/postmark\\";
+
 type ResetPasswordMailer = {
   to: string;
   token: string;
@@ -36,7 +38,7 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
   return {
     async send() {
       if (process.env.NODE_ENV === \\"production\\") {
-        await postmark.sendMail();
+        await postmark.sendMail(msg);
       } else {
         // Preview email in the browser
         await previewEmail(msg);

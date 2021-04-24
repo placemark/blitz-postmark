@@ -4,6 +4,13 @@ import { Collection } from "jscodeshift/src/Collection";
 import { join } from "path";
 
 export function changeEmailFunction(program: Collection<j.Program>) {
+  const postmarkIntegrationImport = j.importDeclaration(
+    [j.importDefaultSpecifier(j.identifier("postmark"))],
+    j.literal("integrations/postmark")
+  );
+
+  addImport(program, postmarkIntegrationImport);
+
   program.find(j.ThrowStatement).forEach((t) => {
     j(t).replaceWith(
       j.expressionStatement(
@@ -13,7 +20,7 @@ export function changeEmailFunction(program: Collection<j.Program>) {
               j.identifier("postmark"),
               j.identifier("sendMail")
             ),
-            []
+            [j.identifier("msg")]
           )
         )
       )
@@ -35,7 +42,11 @@ export default RecipeBuilder()
     stepName: "npm dependencies",
     explanation: "Install nodemailer and nodemailer-postmark-transport",
     packages: [
+      // nodemailer is an indirect dependency of blitz. this doesn't
+      // add it to your node_modules, it ensures that it is importable
+      // from code
       { name: "nodemailer", version: "6.x" },
+      { name: "envsafe", version: "2.x" },
       {
         name: "nodemailer-postmark-transport",
         version: "4.x",
@@ -55,15 +66,8 @@ export default RecipeBuilder()
     stepName: "Import and use postmark in mailer",
     explanation: "Import postmark integration in mailer, call it.",
     singleFileSearch: "mailers/forgotPasswordMailer",
-
     transform(program: Collection<j.Program>) {
-      const postmarkIntegrationImport = j.importDeclaration(
-        [j.importDefaultSpecifier(j.identifier("postmark"))],
-        j.literal("integrations/postmark")
-      );
-      changeEmailFunction(program);
-      addImport(program, postmarkIntegrationImport);
-      return program;
+      return changeEmailFunction(program);
     },
   })
   .build();

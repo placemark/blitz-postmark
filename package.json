@@ -1,8 +1,8 @@
 {
   "name": "blitz-postmark",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Recipe to install and configure postmark as a mail sender",
-  "main": "index.js",
+  "main": "index.ts",
   "author": "Tom MacWright",
   "license": "MIT",
   "scripts": {
